@@ -1,0 +1,66 @@
+
+<div class="container">
+  <div>
+    Exercise [id: {{exercise.id}}]
+  </div>
+  <div *ngIf="!isEditMode">
+    <ul>
+      <li>Name: {{exercise.name}}</li>
+      <li>Basic: {{exercise.isBasic ? 'Yes' : 'No'}}</li>
+      <li>Muscle: {{exercise.muscle.name}}</li>
+      <li>Antagonist Muscle: {{exercise.antagonistMuscle.name}}</li>
+    </ul>
+    <button (click)="editExercise($event)">Edit</button>
+    <button (click)="deleteExercise($event)">Delete</button>
+  </div>
+
+
+  <!-- edit mode -->
+  <div *ngIf="isEditMode">   
+    <form>
+
+      <div class="group">
+        <label for="name">Name: </label>
+        <input 
+          type="text"
+          id="name"       
+          placeholder="name"
+          #nameEdt >
+      </div>
+
+      <div class="group">
+        <label for="isBasic">Basic: </label>
+        <input 
+          type="checkbox"
+          id="isBasic"
+          #isBasicEdt>
+      </div>
+
+      <div class="group">
+        <label for="muscle">Muscle: </label>
+         <select id="muscle" #muscleEdt>
+          <option *ngFor="let muscle of getMuscleList()"
+            value="{{muscle.id}}">
+            {{muscle.name}}
+          </option>          
+        </select> 
+      </div>
+
+      <div class="group">
+        <label for="ant-muscle">Antagonist Muscle: </label>
+         <select id="ant-muscle" #antMuscleEdt>
+          <option *ngFor="let muscle of getMuscleList()"
+            value="{{muscle.id}}">
+            {{muscle.name}}
+          </option>          
+        </select> 
+      </div>
+
+      <button type="submit"
+        (click)='onSubmitChanges(nameEdt, isBasicEdt, muscleEdt, antMuscleEdt)'>
+        Submit
+      </button>
+      <button (click)="cancelChanges($event)">Cancel</button>  
+    </form>
+  </div>
+</div>
