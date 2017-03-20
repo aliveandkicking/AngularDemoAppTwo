@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {Exercise, Muscle, muscleList} from './exercise.model';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
+import { Exercise, Muscle, muscleList } from './exercise.model';
+import { ExerciseEditModeNotificationService } from '../exercise-editmode-notification.service'
 
 @Component({
   selector: 'app-exercise',
@@ -9,17 +10,30 @@ import {Exercise, Muscle, muscleList} from './exercise.model';
 export class ExerciseComponent implements OnInit {  
   @Input() exercise: Exercise
   @Output() delete: EventEmitter<Exercise>
-  @Output() change: EventEmitter<Exercise>
+  @Output() changeExercise: EventEmitter<Exercise>
 
-  isEditMode: boolean = false
-  
-  constructor(  ) { 
+  private isEditMode: boolean = false  
+  private backgroundColor = 'green';
+
+  constructor(
+    private exerciseEditModeNotificationService: ExerciseEditModeNotificationService 
+  ) { 
     this.delete = new EventEmitter<Exercise>();
-    this.change = new EventEmitter<Exercise>();
+    this.changeExercise = new EventEmitter<Exercise>();
   }
 
   ngOnInit() { 
-    
+    this.exerciseEditModeNotificationService.subscribe(this)
+  }
+
+  ngOnDestroy () {
+    this.exerciseEditModeNotificationService.unSubscribe(this)
+  }
+
+  handleSubscription (): void {
+    if (this.isEditMode) {
+      this.isEditMode = false
+    }
   }
 
   getMuscleList () {
@@ -32,13 +46,21 @@ export class ExerciseComponent implements OnInit {
     return result
   }
 
-  getMuscleById (id) {
-    let result: Array<Muscle> = []
+  getMuscleById (id: number) {    
     for (let muscleName in muscleList) {
       if (muscleList.hasOwnProperty(muscleName)) {
-        if (muscleList[muscleName].id === id) {
+        if (muscleList[muscleName].id == id) {
           return muscleList[muscleName]
         }
+      }
+    }
+  }
+
+  onMuscleChange (muscleId, antMuscleEdt) {
+    let muscle: Muscle = this.getMuscleById(muscleId)
+    if (muscle) {
+      if (muscle.antagonistMuscle) {
+        antMuscleEdt.value = muscle.antagonistMuscle.id        
       }
     }
   }
@@ -49,35 +71,29 @@ export class ExerciseComponent implements OnInit {
 
   editExercise (event: any) {    
     this.isEditMode = true
+    this.exerciseEditModeNotificationService.notify(this)
   }
 
-  onSubmitChanges (//biktop
-    
-    // changes: {
-    // name: string,
-    // isBasic: boolean,
-    // muscleId: number,
-    // antagonistMuscleId: number
-  // }
-
-  nameEdt, 
-  isBasicEdt, 
-  muscleEdt, 
-  antMuscleEdt  
-  
+  onSubmitChanges (
+    changes: {
+      name: string,
+      isBasic: boolean,
+      muscleId: number,
+      antagonistMuscleId: number
+    } 
   ) {    
     if (!this.isEditMode) { return }
 
-    // let changedExercise: Exercise = new Exercise(
-    //   changes.name,
-    //   changes.isBasic,
-    //   this.getMuscleById(changes.muscleId),
-    //   this.getMuscleById(changes.antagonistMuscleId),
-    //   false
-    // )
-    // changedExercise.id = this.exercise.id
-    // this.change.emit(changedExercise)
-    // this.isEditMode = false
+    let changedExercise: Exercise = new Exercise(
+      changes.name,
+      changes.isBasic,
+      this.getMuscleById(changes.muscleId),
+      this.getMuscleById(changes.antagonistMuscleId),
+      false
+    )
+    changedExercise.id = this.exercise.id
+    this.changeExercise.emit(changedExercise)
+    this.isEditMode = false
   }
 
   cancelChanges (event: any) { 

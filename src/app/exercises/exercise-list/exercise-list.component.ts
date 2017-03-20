@@ -19,6 +19,8 @@ export class ExerciseListComponent implements OnInit {
   }
 
   onDeleteExercise (exercise: Exercise) {
+    if (!exercise) {return}
+    
     for (let i = 0; i < this.exercises.length; i++) {
       if (this.exercises[i].id === exercise.id) {
         this.exercises.splice(i, 1)
@@ -26,4 +28,14 @@ export class ExerciseListComponent implements OnInit {
     }
   }
 
+  onChangeExercise (exercise: Exercise) {
+    if (!exercise) {return}
+
+    for (let i = 0; i < this.exercises.length; i++) {
+      if (this.exercises[i].id === exercise.id) {
+        this.exercises.splice(i, 1, exercise)
+      }
+    }
+  }
+  
 }

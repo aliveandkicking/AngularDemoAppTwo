@@ -1,6 +1,7 @@
 export class Muscle {
     maxId: number
     public id: number
+    public antagonistMuscle: Muscle = null
     constructor(public name: string) {        
         this.id = Muscle.prototype.maxId++
     }
@@ -18,6 +19,16 @@ class MuscleList {
     Neck: Muscle = new Muscle('Neck')
     Quadriceps: Muscle = new Muscle('Quadriceps')
     LegBiceps: Muscle = new Muscle('LegBiceps')
+
+    constructor(){
+        this.Chest.antagonistMuscle = this.Back
+        this.Back.antagonistMuscle = this.Chest
+        this.Biceps.antagonistMuscle = this.Triceps
+        this.Triceps.antagonistMuscle = this.Biceps
+        this.Quadriceps.antagonistMuscle = this.LegBiceps
+        this.LegBiceps.antagonistMuscle = this.Quadriceps
+        //not all muscles have antagonists
+    }    
 }
 
 export const muscleList = new MuscleList()
@@ -37,6 +48,8 @@ export class Exercise {
             this.id = Exercise.prototype.maxId++            
         }
     }
+
+
 }
 
 Exercise.prototype.maxId = 0

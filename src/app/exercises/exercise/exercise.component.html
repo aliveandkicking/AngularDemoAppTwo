@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="highlight" #mainDiv>
   <div>
     Exercise [id: {{exercise.id}}]
   </div>
@@ -14,14 +14,14 @@
     <button (click)="deleteExercise($event)">Delete</button>
   </div>
 
-
   <!-- edit mode -->
   <div *ngIf="isEditMode">   
     <form>
 
       <div class="group">
         <label for="name">Name: </label>
-        <input 
+        <input
+          value="{{exercise.name}}" 
           type="text"
           id="name"       
           placeholder="name"
@@ -31,14 +31,17 @@
       <div class="group">
         <label for="isBasic">Basic: </label>
         <input 
-          type="checkbox"
+          type="checkbox"         
           id="isBasic"
           #isBasicEdt>
       </div>
 
       <div class="group">
         <label for="muscle">Muscle: </label>
-         <select id="muscle" #muscleEdt>
+         <select 
+          id="muscle" 
+          #muscleEdt value="{{exercise.muscle.id}}"
+          (change)="onMuscleChange(muscleEdt.value, antMuscleEdt)">
           <option *ngFor="let muscle of getMuscleList()"
             value="{{muscle.id}}">
             {{muscle.name}}
@@ -48,7 +51,7 @@
 
       <div class="group">
         <label for="ant-muscle">Antagonist Muscle: </label>
-         <select id="ant-muscle" #antMuscleEdt>
+         <select id="ant-muscle" #antMuscleEdt value="{{exercise.antagonistMuscle.id}}">
           <option *ngFor="let muscle of getMuscleList()"
             value="{{muscle.id}}">
             {{muscle.name}}
@@ -57,10 +60,16 @@
       </div>
 
       <button type="submit"
-        (click)='onSubmitChanges(nameEdt, isBasicEdt, muscleEdt, antMuscleEdt)'>
+        (click)='onSubmitChanges({
+          "name": nameEdt.value,
+          "isBasic": isBasicEdt.checked,
+          "muscleId": muscleEdt.value,
+          "antagonistMuscleId": antMuscleEdt.value
+        }, muscleEdt)'>
         Submit
       </button>
-      <button (click)="cancelChanges($event)">Cancel</button>  
+      <button type="reset">Clear</button>        
+      <button (click)='cancelChanges($event)'>Cancel</button>  
     </form>
   </div>
 </div>
