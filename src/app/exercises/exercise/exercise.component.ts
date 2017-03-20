@@ -10,7 +10,7 @@ import { ExerciseEditModeNotificationService } from '../exercise-editmode-notifi
 export class ExerciseComponent implements OnInit {  
   @Input() exercise: Exercise
   @Output() delete: EventEmitter<Exercise>
-  @Output() changeExercise: EventEmitter<Exercise>
+  @Output() modify: EventEmitter<Exercise>
 
   private isEditMode: boolean = false  
   private backgroundColor = 'green';
@@ -19,7 +19,7 @@ export class ExerciseComponent implements OnInit {
     private exerciseEditModeNotificationService: ExerciseEditModeNotificationService 
   ) { 
     this.delete = new EventEmitter<Exercise>();
-    this.changeExercise = new EventEmitter<Exercise>();
+    this.modify = new EventEmitter<Exercise>();
   }
 
   ngOnInit() { 
@@ -92,7 +92,7 @@ export class ExerciseComponent implements OnInit {
       false
     )
     changedExercise.id = this.exercise.id
-    this.changeExercise.emit(changedExercise)
+    this.modify.emit(changedExercise)
     this.isEditMode = false
   }
 

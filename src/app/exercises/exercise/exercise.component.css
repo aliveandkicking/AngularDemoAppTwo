@@ -1,12 +1,21 @@
 .container{
+    /*display: table;*/
     margin-top: 20px;
-    background-color: #EEFEEE; 
+    background-color: #EEFFEE; 
     padding: 10px;
-    height: 140px;   
+    height: 150px;   
 }
 /*.container:hover{    
     background-color: #EEEEFF;    
 }*/
 .container-hover{  
-    background-color: #AAAAFE;     
+    background-color: #EAEAFF;     
+}
+.content{
+    height: 120px
+}
+/*.botton-panel {        
+}*/
+.editor-label {
+    width: 300px;  
 }

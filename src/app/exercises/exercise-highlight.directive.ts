@@ -4,13 +4,13 @@ import { Component ,HostListener, Directive, HostBinding} from '@angular/core';
     selector: '.highlight'
  })
 export class ExerciseHighlightDirective {
-  @HostBinding('class') backgroundColor = "container"; 
+  @HostBinding('class') className = "container"; 
 
   @HostListener('mouseenter') onEnter() {
-    this.backgroundColor= "container container-hover" ;
+    this.className = "container container-hover" ;
   }
 
   @HostListener('mouseleave') onLeave() {
-    this.backgroundColor = "container";
+    this.className = "container";
   }
 }

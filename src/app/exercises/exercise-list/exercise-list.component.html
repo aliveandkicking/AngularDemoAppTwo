@@ -1,5 +1,5 @@
 <app-exercise *ngFor="let exercise of exercises" 
   [exercise]="exercise"
   (delete)="onDeleteExercise($event)"
-  (changeExercise)="onChangeExercise($event)" >
+  (modify)="onChangeExercise($event)" >
 </app-exercise>
