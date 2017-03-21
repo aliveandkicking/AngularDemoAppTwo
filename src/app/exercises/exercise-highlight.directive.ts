@@ -1,7 +1,7 @@
 import { Component ,HostListener, Directive, HostBinding} from '@angular/core';
 
 @Directive({    
-    selector: '.highlight'
+    selector: '[highlight]'
  })
 export class ExerciseHighlightDirective {
   @HostBinding('class') className = "container"; 

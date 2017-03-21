@@ -12,10 +12,13 @@
     background-color: #EAEAFF;     
 }
 .content{
-    height: 120px
+    height: 110px
+}
+.form-content{
+    height: 130px
 }
 /*.botton-panel {        
 }*/
-.editor-label {
-    width: 300px;  
+.group{
+    height: 30px;  
 }

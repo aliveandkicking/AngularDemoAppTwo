@@ -1,5 +1,5 @@
 
-<div class="highlight">  
+<div highlight>
   <div *ngIf="!isEditMode">  
     
     <div class="content">
@@ -21,7 +21,7 @@
   <div *ngIf="isEditMode">   
     <form>
 
-      <div class="content">     
+      <div class="form-content">     
         <div class="group">
           <label class="editor-label" for="name">Name: </label>
           <input
@@ -37,6 +37,7 @@
           <input 
             type="checkbox"         
             id="isBasic"
+            [checked]="exercise.isBasic"
             #isBasicEdt>
         </div>
 

@@ -12,8 +12,7 @@ export class ExerciseComponent implements OnInit {
   @Output() delete: EventEmitter<Exercise>
   @Output() modify: EventEmitter<Exercise>
 
-  private isEditMode: boolean = false  
-  private backgroundColor = 'green';
+  private isEditMode: boolean = false
 
   constructor(
     private exerciseEditModeNotificationService: ExerciseEditModeNotificationService 
